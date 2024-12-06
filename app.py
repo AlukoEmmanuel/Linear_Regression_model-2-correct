@@ -1,54 +1,41 @@
-from random import random
-
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+import streamlit as st
+#import requests as rq
 import joblib
-# Import dataset
-df = pd.read_excel("data/data.xlsx")
+import numpy as np
 
-#Independent and,dependent  features
-x = df.iloc[:, :-1].values
-y = df.iloc[:, -1].values
-print(x.shape)
+# Load model
+model = joblib.load("model/model.pkl")
 
-#Creating the training set and test set
-x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.2, random=42)
+# app import title and description
+st.title("Power Output Prediction")
+st.write("Enter the values for the following features to predict power output (PE).")
 
-#Building and training the model
-model = LinearRegression()
+# User input for each feature
+ambient_temp = st.number_input("Ambient Temperature (AT)", value=15.0)
+exhaust_vacuum = st.number_input("Exhaust Vacuum (V)", value=40.0)
+ambient_pressure = st.number_input("Ambient Pressure (AP)", value=1000.0)
+relative_humidity = st.number_input("Relative Humidity (RH)", value=75.0)
 
-#Train the model
-model.fit(x train, y_train)
+# Create a button for making the prediction
+if st.button("Predict"):
+    input_data = np.array([[ambient_temp, exhaust_vacuum, ambient_pressure, relative_humidity]])
+    prediction = model.predict(input_data)
+    st.write(f"Predicted Power Output (PE): {prediction[0]}")
 
-#inference
-y_pred = model.predict(x_test)
-print(y_pred)
-#Making the prediction a single data point with AT = 15, V =40, AP=
-print(model.predict([[15, 40, 1000, 75]]))
+    # Use the codes below when connecting via fastapi
+    # prepare data
+    # input_data = {
+    #    "AT": ambient_temp,
+    #    "V": exhaust_vacuum,
+    #    "AP": ambient_pressure,
+    #    "RH": relative_humidity
+    # }
 
-#Evaluating the model
-#R-squared
-r2 = r2_score(y_test, y_pred)
-print(r2)
+    # make api call
+    # response = requests.post("http://127.0.0.1:8000/predict", json=input_data)
 
-#Adjusted-squared
-k = x_test.shape=[1]
-n = x_test.shape=[0]
-adj_r2 = 1-(1-r2)*(n-1)/(n-k-1)
-print(adj_r2)
-
-#Scatter plot of actual vs.predicted values
-plt.figure(figsize =(6,8))
-#plot actual.vs predicted
-plt.scatter(y_test, y_pred, alpha=0.5)
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)])
-plt.xlabel("Actual values")
-plt.ylabel("predicted values")
-plt.title("Actual vs.predicted values")
-plt.show()
-
-#save the trained model to a .pkl file
-joblib.dump(model,"model/model.pkl")
+    # if response.status_code == 200:
+    #    prediction = response.json()["prediction"]
+    #    st.write(f"Predicted Power Output (PE): {prediction}")
+    # else:
+    #    st.write("Error in prediction. Please try again.")

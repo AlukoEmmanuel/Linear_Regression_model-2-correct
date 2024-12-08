@@ -5,8 +5,8 @@ matplotlib
 scikit-learn
 uvicorn
 openyxl
-joblib
+joblib==1.3.2
+
 fastapi
 pydantic
-git add Requirement.txt
 

@@ -1,0 +1,12 @@
+streamlit
+numpy
+pandas
+matplotlib
+scikit-learn
+uvicorn
+openyxl
+joblib
+fastapi
+pydantic
+git add Requirement.txt
+

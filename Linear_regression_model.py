@@ -51,5 +51,5 @@ plt.title("Actual vs. Predicted Values")
 plt.legend()
 plt.show()
 
-# Save the trained model to a .pkl file
+#  Save the trained model to a .pkl file
 joblib.dump(model, "model/model.pkl")

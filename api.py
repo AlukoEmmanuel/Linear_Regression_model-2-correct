@@ -4,7 +4,7 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 
-# Load the saved model
+#  Load the saved model
 model = joblib.load("model/model.pkl")
 
 # Instantiate FastAPI app

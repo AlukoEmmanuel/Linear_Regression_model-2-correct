@@ -5,8 +5,8 @@ matplotlib
 scikit-learn
 uvicorn
 openyxl
-joblib==1.3.2
-joblib
-fastapi
+joblib>=1.4.2
+ joblib
+ fastapi
 pydantic
 

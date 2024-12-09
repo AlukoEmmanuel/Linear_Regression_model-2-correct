@@ -1,5 +1,6 @@
 import streamlit as st
-#import requests as
+#import requests aspip --version
+
 import joblib
 import numpy as np
 
